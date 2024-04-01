@@ -8,9 +8,12 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:${NODE_VERSION}
 ARG GO_VERSION=latest
 ARG HUGO_VERSION=latest
 
+COPY cert.pem /usr/local/share/ca-certificates/cert.crt
+
 # Download necessary tools
 RUN apt-get update && apt-get install -y \
     ca-certificates openssl git curl && \
+    update-ca-certificates && \
     rm -rf /var/lib/apt/lists/* && \
     # set architecture
     case $(uname -m) in \
@@ -28,6 +31,8 @@ RUN apt-get update && apt-get install -y \
     wget -O go${GO_VERSION}.linux-${ARCH}.tar.gz https://dl.google.com/go/go${GO_VERSION}.linux-${ARCH}.tar.gz && \
     tar -C /usr/local -xzf go${GO_VERSION}.linux-${ARCH}.tar.gz && \
     rm go${GO_VERSION}.linux-${ARCH}.tar.gz
+
+ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
 
 # Export Go path
 ENV PATH=$PATH:/usr/local/go/bin
