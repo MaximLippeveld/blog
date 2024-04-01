@@ -29,7 +29,7 @@ const toggleComment = ({ filepath, regex }) => {
 };
 
 const getFolderName = (rootfolder) => {
-  const configPath = path.join(rootfolder, "exampleSite/hugo.toml");
+  const configPath = path.join(rootfolder, "site/hugo.toml");
   const getConfig = fs.readFileSync(configPath, "utf8");
   const match = getConfig.match(/theme\s*=\s*\[?"([^"\]]+)"\]?/);
   let selectedTheme = null;
@@ -75,13 +75,13 @@ const setupProject = () => {
     // remove this part if you don't using theme demo as a module
     [
       {
-        filepath: path.join(rootfolder, "exampleSite/hugo.toml"),
+        filepath: path.join(rootfolder, "site/hugo.toml"),
         regex: /^.*theme\s*=\s*("[^"\]]+"|\S+)/m,
       },
       {
         filepath: path.join(
           rootfolder,
-          "exampleSite/config/_default/module.toml",
+          "site/config/_default/module.toml",
         ),
         regex: /\[\[imports\]\]\s*\r?\npath = "([^"]+)"/,
       },
@@ -107,9 +107,9 @@ const setupProject = () => {
       }
     });
 
-    const exampleSite = path.join(rootfolder, "exampleSite");
-    iterateFilesAndFolders(exampleSite, { destinationRoot: rootfolder });
-    deleteFolder(exampleSite);
+    const site = path.join(rootfolder, "site");
+    iterateFilesAndFolders(site, { destinationRoot: rootfolder });
+    deleteFolder(site);
   }
 };
 
