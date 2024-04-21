@@ -8,10 +8,8 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:${NODE_VERSION}
 ARG GO_VERSION=latest
 ARG HUGO_VERSION=latest
 
-COPY cert.pem /usr/local/share/ca-certificates/cert.crt
-
 # Download necessary tools
-RUN apt-get update && apt-get install -y \
+RUN --mount=type=bind,target=/usr/local/share/ca-certificates/ apt-get update && apt-get install -y \
     ca-certificates openssl git curl && \
     update-ca-certificates && \
     rm -rf /var/lib/apt/lists/* && \
